@@ -1,0 +1,11 @@
+<h1>This is the {{title}} template!</h1>
+
+<h2>These people have also signed up to support the cause:</h2>
+
+<ul>
+    {{#userData}}
+        <li>
+            {{first_name}} {{last_name}}
+        </li>
+    {{/userData}}
+</ul>

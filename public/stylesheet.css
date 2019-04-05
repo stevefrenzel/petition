@@ -1,0 +1,23 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+}
+
+canvas {
+    border: 1px black dotted;
+    display: block;
+    margin-top: 20px;
+}
+
+#submit-button {
+    margin-top: 20px;
+}
+
+.register-inputs,
+.login-inputs {
+    display: block;
+    margin-top: 20px;
+}

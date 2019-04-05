@@ -1,0 +1,21 @@
+<h1>This is the {{title}} template!</h1>
+
+<h2>Please sign this petition, thank you.</h2>
+
+<form method="post">
+
+    <input type="text" name="firstName" placeholder="First name" required id="first-name">
+
+    <input type="text" name="lastName" placeholder="Last name" required id="last-name">
+
+    <input type="hidden" name="signature" id="hidden-input" required>
+
+    <!-- <input name="_csrf" value="{{csrfToken}}" type="hidden"> -->
+
+    <canvas id="canvas">Please sign here.</canvas>
+
+    <input type="submit" value="Submit" id="submit-button">
+
+    <button type="button" id="erase-button">Try again</button>
+
+</form>
