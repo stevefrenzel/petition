@@ -3,7 +3,7 @@
 
     const bcrypt = require("bcryptjs");
 
-    function hashPassword(plainTextPassword) {
+    exports.hashPassword = function hashPassword(plainTextPassword) {
         return new Promise(function(resolve, reject) {
             bcrypt.genSalt(function(err, salt) {
                 if (err) {
@@ -17,9 +17,12 @@
                 });
             });
         });
-    }
+    };
 
-    function checkPassword(textEnteredInLoginForm, hashedPasswordFromDatabase) {
+    exports.checkPassword = function checkPassword(
+        textEnteredInLoginForm,
+        hashedPasswordFromDatabase
+    ) {
         return new Promise(function(resolve, reject) {
             bcrypt.compare(
                 textEnteredInLoginForm,
@@ -33,5 +36,5 @@
                 }
             );
         });
-    }
+    };
 })();

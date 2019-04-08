@@ -7,6 +7,7 @@
     const hb = require("express-handlebars");
     const cookieSession = require("cookie-session");
     const bodyParser = require("body-parser");
+    const auth = require("./bcrypt.js");
     // const csurf = require("csurf");
 
     app.engine("handlebars", hb());
@@ -36,20 +37,75 @@
     // implenting csurf in order to use it
     // app.use(csurf());
 
-    // GET FOR /PETITION
+    ////////////////////////////////////////////////////////////
+    ///////     /REGISTER GET & POST            ////////////////
+    ////////////////////////////////////////////////////////////
 
-    app.get("/petition", (req, res) => {
+    app.get("/register", (req, res) => {
+        res.render("register", {
+            title: "Register",
+            layout: "main"
+        });
+    });
+
+    app.post("/register", (req, res) => {
+        auth.hashPassword(req.body.password).then(hash => {
+            db.registerInfo(
+                req.body.firstName,
+                req.body.lastName,
+                req.body.emailAddress,
+                hash
+            )
+                .then(() => {
+                    console.log("POST FOR /register");
+                    // if first time, redirect to /profile
+                    // else redirect to /petition
+                })
+                .catch(err => {
+                    console.log("hashPassword() ERROR: ", err);
+                });
+        });
+    });
+
+    ////////////////////////////////////////////////////////////
+    ///////     /LOGIN GET & POST               ////////////////
+    ////////////////////////////////////////////////////////////
+
+    app.get("/login", (req, res) => {
+        res.render("login", {
+            title: "Login",
+            layout: "main"
+        });
+    });
+
+    app.post("/login", (req, res) => {
         // req.session = {
         //     userId: data.rows[0].id,
         //     signatureId: id
         // };
+    });
+
+    ////////////////////////////////////////////////////////////
+    ///////     /PROFILE GET                    ////////////////
+    ////////////////////////////////////////////////////////////
+
+    app.get("/profile", (req, res) => {
+        res.render("profile", {
+            title: "Profile",
+            layout: "main"
+        });
+    });
+
+    ////////////////////////////////////////////////////////////
+    ///////     /PETITION GET & POST            ////////////////
+    ////////////////////////////////////////////////////////////
+
+    app.get("/petition", (req, res) => {
         res.render("petition", {
             title: "Petition",
             layout: "main"
         });
     });
-
-    // POST FOR /PETITION
 
     app.post("/petition", (req, res) => {
         db.addUserData(
@@ -58,14 +114,16 @@
             req.body.signature
         )
             .then(() => {
-                console.log("addUserData() SUCCESFUL");
+                console.log("POST FOR /petition");
             })
             .catch(err => {
                 console.log("addUserData() ERROR: ", err);
             });
     });
 
-    // GET FOR /CREDITS
+    ////////////////////////////////////////////////////////////
+    ///////     /CREDITS GET                    ////////////////
+    ////////////////////////////////////////////////////////////
 
     app.get("/credits", (req, res) => {
         db.getNames()
@@ -82,7 +140,9 @@
             });
     });
 
-    // GET FOR /SIGNERS
+    ////////////////////////////////////////////////////////////
+    ///////     /SIGNERS GET & POST             ////////////////
+    ////////////////////////////////////////////////////////////
 
     app.get("/signers", (req, res) => {
         db.getNames()
@@ -99,23 +159,8 @@
             });
     });
 
-    // GET FOR /REGISTER
-
-    app.get("/register", (req, res) => {
-        res.render("register", {
-            title: "Register",
-            layout: "main"
-        });
-    });
-
-    // GET FOR /LOGIN
-
-    app.get("/login", (req, res) => {
-        res.render("login", {
-            title: "Login",
-            layout: "main"
-        });
-    });
+    // GET FOR CITY NAMES
+    // app.get("/cities/:city", (req, res) => {});
 
     app.listen(8080, () => {
         console.log("S E R V E R  I S  O N L I N E");

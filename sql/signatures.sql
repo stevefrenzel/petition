@@ -7,3 +7,6 @@ CREATE TABLE signatures(
     signature TEXT,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
+
+-- get rid of first_name and last_name
+-- and get info from joining w/ users table
