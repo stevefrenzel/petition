@@ -79,17 +79,31 @@
     });
 
     app.post("/login", (req, res) => {
-        // req.session = {
-        //     userId: data.rows[0].id,
-        //     signatureId: id
-        // };
+        // db.hashPassword(req.body.password).then(hash => {
+        //     auth.checkPassword(req.body.password, hash).then(doesMatch => {
+        //         if (doesMatch) {
+        //             req.session.user = {
+        //                 userId: data.rows[0].id,
+        //                 signatureId: id
+        //             };
+        //             res.redirect("/petition");
+        //         }
+        //     });
+        // });
     });
 
     ////////////////////////////////////////////////////////////
-    ///////     /PROFILE GET                    ////////////////
+    ///////     /PROFILE GET & POST             ////////////////
     ////////////////////////////////////////////////////////////
 
     app.get("/profile", (req, res) => {
+        res.render("profile", {
+            title: "Profile",
+            layout: "main"
+        });
+    });
+
+    app.post("/profile", (req, res) => {
         res.render("profile", {
             title: "Profile",
             layout: "main"
@@ -109,8 +123,8 @@
 
     app.post("/petition", (req, res) => {
         db.addUserData(
-            req.body.firstName,
-            req.body.lastName,
+            // req.body.firstName,
+            // req.body.lastName,
             req.body.signature
         )
             .then(() => {
