@@ -68,31 +68,6 @@
     });
 
     ////////////////////////////////////////////////////////////
-    ///////     /LOGIN GET & POST               ////////////////
-    ////////////////////////////////////////////////////////////
-
-    app.get("/login", (req, res) => {
-        res.render("login", {
-            title: "Login",
-            layout: "main"
-        });
-    });
-
-    app.post("/login", (req, res) => {
-        // db.hashPassword(req.body.password).then(hash => {
-        //     auth.checkPassword(req.body.password, hash).then(doesMatch => {
-        //         if (doesMatch) {
-        //             req.session.user = {
-        //                 userId: data.rows[0].id,
-        //                 signatureId: id
-        //             };
-        //             res.redirect("/petition");
-        //         }
-        //     });
-        // });
-    });
-
-    ////////////////////////////////////////////////////////////
     ///////     /PROFILE GET & POST             ////////////////
     ////////////////////////////////////////////////////////////
 
@@ -136,6 +111,31 @@
     });
 
     ////////////////////////////////////////////////////////////
+    ///////     /LOGIN GET & POST               ////////////////
+    ////////////////////////////////////////////////////////////
+
+    app.get("/login", (req, res) => {
+        res.render("login", {
+            title: "Login",
+            layout: "main"
+        });
+    });
+
+    app.post("/login", (req, res) => {
+        // db.hashPassword(req.body.password).then(hash => {
+        //     auth.checkPassword(req.body.password, hash).then(doesMatch => {
+        //         if (doesMatch) {
+        //             req.session.user = {
+        //                 userId: data.rows[0].id,
+        //                 signatureId: id
+        //             };
+        //             res.redirect("/petition");
+        //         }
+        //     });
+        // });
+    });
+
+    ////////////////////////////////////////////////////////////
     ///////     /CREDITS GET                    ////////////////
     ////////////////////////////////////////////////////////////
 
@@ -152,6 +152,17 @@
             .catch(err => {
                 console.log("getNames() ERROR: ", err);
             });
+    });
+
+    ////////////////////////////////////////////////////////////
+    ///////     /EDIT GET                       ////////////////
+    ////////////////////////////////////////////////////////////
+
+    app.get("/edit", (req, res) => {
+        res.render("edit", {
+            title: "Edit",
+            layout: "main"
+        });
     });
 
     ////////////////////////////////////////////////////////////
