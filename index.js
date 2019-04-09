@@ -37,18 +37,46 @@
     // implenting csurf in order to use it
     // app.use(csurf());
 
+    app.get("/", (req, res) => {
+        if (req.session.signatureId) {
+            res.redirect("/credits");
+        } else if (req.session.userId) {
+            res.redirect("/petition");
+        } else {
+            res.redirect("/register");
+        }
+    });
+
     ////////////////////////////////////////////////////////////
     ///////     /REGISTER GET & POST            ////////////////
     ////////////////////////////////////////////////////////////
 
     app.get("/register", (req, res) => {
-        res.render("register", {
-            title: "Register",
-            layout: "main"
-        });
+        if (req.session.signatureId) {
+            res.redirect("/credits");
+        } else if (req.session.userId) {
+            res.redirect("/petition");
+        } else {
+            res.render("register", {
+                title: "Register",
+                layout: "main"
+            });
+        }
     });
 
     app.post("/register", (req, res) => {
+        if (
+            req.body.firstName == "" ||
+            req.body.lastName == "" ||
+            req.body.emailAddress == "" ||
+            req.body.password == ""
+        ) {
+            res.render("register", {
+                title: "Register",
+                error: "error",
+                layout: "main"
+            });
+        }
         auth.hashPassword(req.body.password).then(hash => {
             db.registerInfo(
                 req.body.firstName,
@@ -57,12 +85,14 @@
                 hash
             )
                 .then(() => {
-                    console.log("POST FOR /register");
-                    // if first time, redirect to /profile
-                    // else redirect to /petition
+                    // if (no cookie) {
+                    //     res.redirect("/profile");
+                    // } else {
+                    //     res.redirect("/petition");
+                    // }
                 })
                 .catch(err => {
-                    console.log("hashPassword() ERROR: ", err);
+                    console.log(err);
                 });
         });
     });
@@ -72,10 +102,16 @@
     ////////////////////////////////////////////////////////////
 
     app.get("/profile", (req, res) => {
-        res.render("profile", {
-            title: "Profile",
-            layout: "main"
-        });
+        if (req.session.signatureId) {
+            res.redirect("/credits");
+        } else if (req.session.userId) {
+            res.redirect("/petition");
+        } else {
+            res.render("profile", {
+                title: "Profile",
+                layout: "main"
+            });
+        }
     });
 
     app.post("/profile", (req, res) => {
@@ -90,23 +126,35 @@
     ////////////////////////////////////////////////////////////
 
     app.get("/petition", (req, res) => {
-        res.render("petition", {
-            title: "Petition",
-            layout: "main"
-        });
+        if (!req.session.signatureId) {
+            res.redirect("/login");
+        } else if (req.session.signatureId) {
+            res.redirect("/credits");
+        } else {
+            res.render("petition", {
+                title: "Petition",
+                layout: "main"
+            });
+        }
     });
 
     app.post("/petition", (req, res) => {
-        db.addUserData(
-            // req.body.firstName,
-            // req.body.lastName,
-            req.body.signature
-        )
-            .then(() => {
-                console.log("POST FOR /petition");
+        if (req.session.signatureId == "") {
+            res.render("petition", {
+                title: "Petition",
+                error: "error",
+                layout: "main"
+            });
+        }
+        db.addUserData(req.body.userId, req.body.signature)
+            .then(data => {
+                req.session.user = {
+                    signatureId: data.rows[0].id
+                };
+                res.redirect("/credits");
             })
             .catch(err => {
-                console.log("addUserData() ERROR: ", err);
+                console.log(err);
             });
     });
 
@@ -115,24 +163,49 @@
     ////////////////////////////////////////////////////////////
 
     app.get("/login", (req, res) => {
-        res.render("login", {
-            title: "Login",
-            layout: "main"
-        });
+        if (req.session.signatureId) {
+            res.redirect("/credits");
+        } else if (req.session.userId) {
+            res.redirect("/petition");
+        } else {
+            res.render("login", {
+                title: "Login",
+                layout: "main"
+            });
+        }
     });
 
     app.post("/login", (req, res) => {
-        // db.hashPassword(req.body.password).then(hash => {
-        //     auth.checkPassword(req.body.password, hash).then(doesMatch => {
-        //         if (doesMatch) {
-        //             req.session.user = {
-        //                 userId: data.rows[0].id,
-        //                 signatureId: id
-        //             };
-        //             res.redirect("/petition");
-        //         }
-        //     });
-        // });
+        db.getHashedPassword(req.body.emailAddress).then(data => {
+            auth.checkPassword(req.body.password, data.rows[0].password).then(
+                doesMatch => {
+                    if (doesMatch) {
+                        // enter query to compare id from users table with userId from signatures table
+                        // and store information in cookie
+                        db.compareIdWithUserId();
+                        req.session.user = {
+                            userId: data.rows[0].id
+                        };
+                        res.redirect("/petition");
+                    } else {
+                        res.render("login", {
+                            title: "Login",
+                            error: "error",
+                            layout: "main"
+                        });
+                    }
+                }
+            );
+        });
+    });
+
+    ////////////////////////////////////////////////////////////
+    ///////     /LOGOUT GET                     ////////////////
+    ////////////////////////////////////////////////////////////
+
+    app.get("/logout", (req, res) => {
+        req.session = null;
+        res.redirect("/login");
     });
 
     ////////////////////////////////////////////////////////////
@@ -140,18 +213,24 @@
     ////////////////////////////////////////////////////////////
 
     app.get("/credits", (req, res) => {
-        db.getNames()
-            .then(data => {
-                let totalAmountSigners = data.rows.length;
-                res.render("credits", {
-                    title: "Credits",
-                    layout: "main",
-                    amountSigners: totalAmountSigners
+        if (!req.session.signatureId) {
+            res.redirect("/petition");
+        } else if (!req.session.userId) {
+            res.redirect("/login");
+        } else {
+            db.getNames()
+                .then(data => {
+                    let totalAmountSigners = data.rows.length;
+                    res.render("credits", {
+                        title: "Credits",
+                        layout: "main",
+                        amountSigners: totalAmountSigners
+                    });
+                })
+                .catch(err => {
+                    console.log(err);
                 });
-            })
-            .catch(err => {
-                console.log("getNames() ERROR: ", err);
-            });
+        }
     });
 
     ////////////////////////////////////////////////////////////
@@ -159,10 +238,16 @@
     ////////////////////////////////////////////////////////////
 
     app.get("/edit", (req, res) => {
-        res.render("edit", {
-            title: "Edit",
-            layout: "main"
-        });
+        if (req.session.signatureId) {
+            res.redirect("/credits");
+        } else if (req.session.userId) {
+            res.redirect("/petition");
+        } else {
+            res.render("edit", {
+                title: "Edit",
+                layout: "main"
+            });
+        }
     });
 
     ////////////////////////////////////////////////////////////
@@ -170,22 +255,28 @@
     ////////////////////////////////////////////////////////////
 
     app.get("/signers", (req, res) => {
-        db.getNames()
-            .then(data => {
-                let userNames = data.rows;
-                res.render("signers", {
-                    title: "Signers",
-                    layout: "main",
-                    userData: userNames
+        if (!req.session.signatureId) {
+            res.redirect("/petition");
+        } else if (!req.session.userId) {
+            res.redirect("/login");
+        } else {
+            db.getNames()
+                .then(data => {
+                    let userNames = data.rows;
+                    res.render("signers", {
+                        title: "Signers",
+                        layout: "main",
+                        userData: userNames
+                    });
+                })
+                .catch(err => {
+                    console.log(err);
                 });
-            })
-            .catch(err => {
-                console.log("getNames() ERROR: ", err);
-            });
+        }
     });
 
     // GET FOR CITY NAMES
-    // app.get("/cities/:city", (req, res) => {});
+    // app.get("/signers/:city", (req, res) => {});
 
     app.listen(8080, () => {
         console.log("S E R V E R  I S  O N L I N E");

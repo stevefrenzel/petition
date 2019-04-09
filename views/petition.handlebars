@@ -4,11 +4,6 @@
 
 <form method="post">
 
-    <!-- not necessary anymore because only available for logged in users -->
-    <!-- <input type="text" name="firstName" placeholder="First name" required id="first-name"> -->
-    <!-- not necessary anymore because only available for logged in users -->
-    <!-- <input type="text" name="lastName" placeholder="Last name" required id="last-name"> -->
-
     <input type="hidden" name="signature" id="hidden-input" required>
 
     <!-- <input name="_csrf" value="{{csrfToken}}" type="hidden"> -->
@@ -20,3 +15,7 @@
     <button type="button" id="erase-button">Try again</button>
 
 </form>
+
+{{#if error}}
+    <p>Something went wrong, please try again!</p>
+{{/if}}
