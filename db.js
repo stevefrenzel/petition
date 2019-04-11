@@ -3,7 +3,8 @@
 
     const spicedPg = require("spiced-pg");
     const db = spicedPg(
-        "postgres:postgres:postgres@localhost:5432/tabasco-petition"
+        process.env.DATABASE_URL ||
+            "postgres:postgres:postgres@localhost:5432/tabasco-petition"
     );
 
     exports.addUserData = function addUserData(userId, signature) {
@@ -12,7 +13,7 @@
         return db.query(query, parameters);
     };
 
-    exports.getNames = function getNames() {
+    exports.getAmountOfSigners = function getAmountOfSigners() {
         let query = `SELECT * FROM signatures;`;
         return db.query(query);
     };
@@ -34,13 +35,13 @@
     };
 
     exports.getHashedPassword = function getHashedPassword(email_address) {
-        let query = `SELECT password FROM users WHERE email_address = $1`;
+        let query = `SELECT password, id FROM users WHERE email_address = $1`;
         let parameters = [email_address || null];
         return db.query(query, parameters);
     };
 
-    exports.compareIdWithUserId = function compareIdWithUserId(userId) {
-        let query = `SELECT id FROM users WHERE userId = $1`;
+    exports.checkIfSigned = function checkIfSigned(userId) {
+        let query = `SELECT id FROM signatures WHERE userId = $1`;
         let parameters = [userId || null];
         return db.query(query, parameters);
     };

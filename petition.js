@@ -1,0 +1,36 @@
+(function() {
+    "use strict";
+
+    const { app } = require("./index");
+    const db = require("./db");
+    const { requireLoggedInUser, requireSignature } = require("./middleware");
+
+    app.get("/petition", requireLoggedInUser, (req, res) => {
+        db.checkIfSigned(req.session.userId).then(data => {
+            if (data.rows.length > 0) {
+                req.session.signatureId = data.rows[0].id;
+            }
+            if (!req.session.userId) {
+                res.redirect("/login");
+            } else if (req.session.signatureId) {
+                res.redirect("/credits");
+            } else {
+                res.render("petition", {
+                    title: "Petition",
+                    layout: "main"
+                });
+            }
+        });
+    });
+
+    app.post("/petition", requireLoggedInUser, requireSignature, (req, res) => {
+        db.addUserData(req.session.userId, req.body.signature)
+            .then(data => {
+                req.session.signatureId = data.rows[0].id;
+                res.redirect("/credits");
+            })
+            .catch(err => {
+                console.log("POST /petition addUserData() error: ", err);
+            });
+    });
+})();

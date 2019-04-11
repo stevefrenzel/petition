@@ -6,9 +6,13 @@
 
     <input type="password" name="password" placeholder="Enter password" required>
 
+    <input name="_csrf" value="{{csrfToken}}" type="hidden">
+
     <button type="submit" name="logInButton">Log In</button>
 
 </form>
+
+    <p>If you don't have an account yet, you can register <a href="/register">here</a>.</p>
 
 {{#if error}}
     <p>Something went wrong, please try again!</p>
