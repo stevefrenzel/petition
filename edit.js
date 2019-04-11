@@ -11,7 +11,7 @@
         });
     });
 
-    app.post("/edit", requireLoggedInUser, (req, res) => {
+    app.post("/edit", (req, res) => {
         res.redirect("/credits");
     });
 })();

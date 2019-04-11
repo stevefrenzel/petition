@@ -31,6 +31,16 @@ button {
     align-items: center;
 }
 
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 #submit-button {
     margin-top: 20px;
+}
+
+#img-signature {
+    border: 1px dotted black;
 }

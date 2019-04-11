@@ -3,16 +3,12 @@
 
     const { app } = require("./index");
     const db = require("./db");
-    const { requireLoggedInUser, requireSignature } = require("./middleware");
+    const { requireLoggedInUser } = require("./middleware");
 
     app.get("/petition", requireLoggedInUser, (req, res) => {
         db.checkIfSigned(req.session.userId).then(data => {
             if (data.rows.length > 0) {
                 req.session.signatureId = data.rows[0].id;
-            }
-            if (!req.session.userId) {
-                res.redirect("/login");
-            } else if (req.session.signatureId) {
                 res.redirect("/credits");
             } else {
                 res.render("petition", {
@@ -23,9 +19,10 @@
         });
     });
 
-    app.post("/petition", requireLoggedInUser, requireSignature, (req, res) => {
+    app.post("/petition", (req, res) => {
         db.addUserData(req.session.userId, req.body.signature)
             .then(data => {
+                console.log(data);
                 req.session.signatureId = data.rows[0].id;
                 res.redirect("/credits");
             })

@@ -6,13 +6,13 @@
     const { requireLoggedInUser } = require("./middleware");
 
     app.get("/signers", requireLoggedInUser, (req, res) => {
-        db.getAmountOfSigners()
+        db.getSignees()
             .then(data => {
-                let userNames = data.rows;
+                let userData = data.rows;
                 res.render("signers", {
                     title: "Signers",
                     layout: "main",
-                    userData: userNames
+                    userData
                 });
             })
             .catch(err => {

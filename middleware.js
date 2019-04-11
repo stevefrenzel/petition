@@ -1,34 +1,42 @@
-module.exports = {
-    requireLoggedInUser,
-    requireLoggedOutUser,
-    requireSignature,
-    requireNoSignature
-};
+(function() {
+    "use strict";
 
-function requireLoggedInUser(req, res, next) {
-    if (!req.session.userId && req.url != "/register" && req.url != "/login") {
-        return res.redirect("/register");
-    }
-    next();
-}
+    module.exports = {
+        requireLoggedInUser,
+        requireLoggedOutUser,
+        requireSignature,
+        requireNoSignature
+    };
 
-function requireLoggedOutUser(req, res, next) {
-    if (req.session.userId) {
-        return res.redirect("/petition");
+    function requireLoggedInUser(req, res, next) {
+        if (
+            !req.session.userId &&
+            req.url != "/register" &&
+            req.url != "/login"
+        ) {
+            return res.redirect("/register");
+        }
+        next();
     }
-    next();
-}
 
-function requireSignature(req, res, next) {
-    if (!req.session.sigId) {
-        return res.redirect("/petition");
+    function requireLoggedOutUser(req, res, next) {
+        if (req.session.userId) {
+            return res.redirect("/petition");
+        }
+        next();
     }
-    next();
-}
 
-function requireNoSignature(req, res, next) {
-    if (req.session.sigId) {
-        return res.redirect("/credits");
+    function requireSignature(req, res, next) {
+        if (!req.session.sigId) {
+            return res.redirect("/petition");
+        }
+        next();
     }
-    next();
-}
+
+    function requireNoSignature(req, res, next) {
+        if (req.session.sigId) {
+            return res.redirect("/credits");
+        }
+        next();
+    }
+})();

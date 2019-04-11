@@ -5,7 +5,7 @@
     const db = require("./db");
     const bcrypt = require("./bcrypt.js");
     const {
-        requireLoggedInUser,
+        // requireLoggedInUser,
         requireLoggedOutUser,
         requireNoSignature
     } = require("./middleware");
@@ -23,11 +23,6 @@
     );
 
     app.post("/register", (req, res) => {
-        res.render("register", {
-            title: "Register",
-            error: "error",
-            layout: "main"
-        });
         bcrypt
             .hashPassword(req.body.password)
             .then(hash => {
@@ -36,14 +31,24 @@
                     req.body.lastName,
                     req.body.emailAddress,
                     hash
-                );
+                ).then(data => {
+                    let id = data.rows[0].id;
+
+                    req.session.userId = id;
+                    res.redirect("/petition");
+                });
             })
             .catch(err => {
                 console.log("POST /register hashPassword() error: ", err);
+                res.render("register", {
+                    title: "Register",
+                    error: "error",
+                    layout: "main"
+                });
             });
     });
 
-    app.get("/login", requireLoggedOutUser, (req, res) => {
+    app.get("/login", requireLoggedOutUser, requireNoSignature, (req, res) => {
         res.render("login", {
             title: "Login",
             layout: "main"
@@ -59,7 +64,14 @@
                     .then(doesMatch => {
                         if (doesMatch) {
                             req.session.userId = id;
-                            res.redirect("/petition");
+                            db.checkIfSigned(req.session.userId).then(data => {
+                                if (data.rows.length > 0) {
+                                    req.session.signatureId = data.rows[0].id;
+                                    res.redirect("/credits");
+                                } else {
+                                    res.redirect("/petition");
+                                }
+                            });
                         } else {
                             res.render("login", {
                                 title: "Login",
@@ -77,7 +89,15 @@
             });
     });
 
-    app.get("/logout", (req, res) => {
+    app.post("/logout", (req, res) => {
+        req.session = null;
+        res.redirect("/login");
+    });
+
+    // work in progress
+    // add query to select and delete signature from table
+
+    app.post("/unsign", (req, res) => {
         req.session = null;
         res.redirect("/login");
     });
