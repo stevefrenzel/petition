@@ -31,12 +31,23 @@
                     req.body.lastName,
                     req.body.emailAddress,
                     hash
-                ).then(data => {
-                    let id = data.rows[0].id;
-
-                    req.session.userId = id;
-                    res.redirect("/petition");
-                });
+                )
+                    .then(data => {
+                        let id = data.rows[0].id;
+                        req.session.userId = id;
+                        res.redirect("/petition");
+                    })
+                    .catch(err => {
+                        console.log(
+                            "POST /register registerInfo() error: ",
+                            err
+                        );
+                        res.render("register", {
+                            title: "Register",
+                            error: "error",
+                            layout: "main"
+                        });
+                    });
             })
             .catch(err => {
                 console.log("POST /register hashPassword() error: ", err);

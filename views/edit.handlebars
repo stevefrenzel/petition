@@ -6,19 +6,19 @@
 
 <form method="post">
 
-    <input type="text" name="firstName" placeholder="First name" required id="first-name">
+    <input type="text" name="firstName" placeholder="First name" id="first-name" value={{firstName}}>
 
-    <input type="text" name="lastName" placeholder="Last name" required id="last-name">
+    <input type="text" name="lastName" placeholder="Last name" id="last-name" value={{lastName}}>
 
-    <input type="email" name="emailAddress" placeholder="example@email.com" required>
+    <input type="email" name="emailAddress" placeholder="example@email.com" value={{emailAddress}}>
 
-    <input type="password" name="password" placeholder="Enter password" required>
+    <input type="password" name="password" placeholder="Change password">
 
-    <input type="number" name="signersAge" placeholder="Enter your age" min="0" max="1337">
+    <input type="number" name="signersAge" placeholder="Enter your age" min="0" max="1337" value={{age}}>
 
-    <input type="text" name="signersCity" placeholder="Please enter city name">
+    <input type="text" name="signersCity" placeholder="Please enter city name" value={{city}}>
 
-    <input type="url" name="signersHomepage" placeholder="Please enter URL">
+    <input type="url" name="signersHomepage" placeholder="Please enter URL" value={{url}}>
 
     <input name="_csrf" value="{{csrfToken}}" type="hidden">
 

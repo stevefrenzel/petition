@@ -5,6 +5,8 @@
     const db = require("./db");
     const { requireLoggedInUser } = require("./middleware");
 
+    // not showing corresponding signature!
+
     app.get("/credits", requireLoggedInUser, (req, res) => {
         db.getAmountOfSigners()
             .then(data => {

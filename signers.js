@@ -20,6 +20,17 @@
             });
     });
 
-    // GET FOR CITY NAMES
-    // app.get("/signers/:city", (req, res) => {});
+    // ignoring stylesheet.css
+
+    app.get("/signers/:city", requireLoggedInUser, (req, res) => {
+        let city = req.params.city;
+        db.getCitySigners(city).then(data => {
+            let userData = data.rows;
+            res.render("signers", {
+                title: "Signers",
+                layout: "main",
+                userData
+            });
+        });
+    });
 })();

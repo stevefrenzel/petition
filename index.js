@@ -44,14 +44,38 @@
         res.redirect("/login");
     });
 
-    // app.get("*", (req, res) => {
-    //     res.status(400).render("404", {
-    //         title: "404",
-    //         layout: "main"
-    //     });
-    // });
-
     app.listen(process.env.PORT || 8080, () => {
         console.log("S E R V E R  I S  O N L I N E");
     });
 })();
+
+// const redis = require("./redis");
+
+// REDIS DEMO
+// redis.setex("country", 10, JSON.stringify(["germany", "usa"]).then(() => {
+//     redis.get("country").then(data => {
+//         console.log("DATA FROM REDIS GET: ", JSON.parse(data));
+//     });
+// });
+
+// REDIS DEMO
+// app.get("/something", (req, res) => {
+//     redis.get("something").then(data => {
+//         if (!data) {
+//             db.someQuery().then(results => {
+//                 redis.setex("something", 120, JSON.stringify(results.row));
+//             });
+//         } else {
+//             res.render("someTemplate", {
+//                 dataFromRedis: data
+//             });
+//         }
+//     });
+// });
+
+// app.get("*", (req, res) => {
+//     res.status(400).render("404", {
+//         title: "404",
+//         layout: "main"
+//     });
+// });

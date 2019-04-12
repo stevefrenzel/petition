@@ -9,19 +9,20 @@
 <ul>
     {{#userData}}
         <li>
-            Name: {{#if url}} <a href="{{url}}"> {{/if}} {{first_name}} {{last_name}} {{#if url}} </a> {{/if}}
+            Name:
+            {{#if url}}
+                <a href="/{{url}}">
+                    {{/if}}
+                        {{first_name}} {{last_name}}
+                    {{#if url}}
+                </a>
+            {{/if}}
+
             {{#if age}} | Age: {{age}} {{/if}}
-            {{#if city}} | City: {{city}} {{/if}}
+
+            {{#if city}}
+              | City: <a href="/signers/{{city}}"> {{city}} </a>
+            {{/if}}
         </li>
     {{/userData}}
 </ul>
-
-
-
-<!-- if provided, display information about age and city -->
-
-<!-- if provided, city name is link that shows only the people who have signed  -->
-<!-- the petition that live in that city -->
-
-<!-- if provided, website URL wraps signer name -->
-<!-- URL has to start with "http://" or "https://"!!! -->
