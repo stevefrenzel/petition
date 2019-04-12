@@ -40,6 +40,10 @@
     require("./profile");
     require("./edit");
 
+    app.get("/", (req, res) => {
+        res.redirect("/login");
+    });
+
     // app.get("*", (req, res) => {
     //     res.status(400).render("404", {
     //         title: "404",
