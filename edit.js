@@ -32,46 +32,43 @@
             });
     });
 
-    // create two promises
-
-    // first one updates age, city, url
-
-    // second one checks if user entered password
-    // if no password UPDATE names and email
-    // if password, hash it and enter names, email, hash
-    // when done put stuff into promise.all and ONLY redirect when both true
-
     app.post("/edit", (req, res) => {
-        let cleanUrl = urlCleaner(req.body.url);
+        let cleanUrl = urlCleaner.urlCleaner(req.body.signersHomepage);
         let updateUser;
 
-        db.updateAgeCityUrl(
+        let updateThreeThings = db.updateAgeCityUrl(
             req.body.signersAge,
             req.body.signersCity,
-            req.body.signersHomepage,
+            cleanUrl,
             req.session.userId
         );
 
         if (req.body.password === "") {
             updateUser = db.updateNamesEmail(
                 req.body.firstName,
-                req.body.LastName,
-                req.body.emailAddress
+                req.body.lastName,
+                req.body.emailAddress,
+                req.session.userId
             );
         } else {
-            bcrypt.hashPassword(req.body.password).then(hash => {
-                db.updateNamesEmailPassword(
+            updateUser = bcrypt.hashPassword(req.body.password).then(hash => {
+                return db.updateNamesEmailPassword(
                     req.body.firstName,
                     req.body.lastName,
                     req.body.emailAddress,
-                    hash
+                    hash,
+                    req.session.userId
                 );
             });
         }
-        res.redirect("/credits");
 
-        Promise.all([promise1, promise1]).then(data => {
-            console.log(data);
+        Promise.all([updateThreeThings, updateUser]).then(data => {
+            if (data) {
+                res.redirect("/credits");
+            } else {
+                // what to do if both promises are not true?
+                console.log("NO IDEA!");
+            }
         });
     });
 })();

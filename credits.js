@@ -5,13 +5,17 @@
     const db = require("./db");
     const { requireLoggedInUser } = require("./middleware");
 
-    // not showing corresponding signature!
-
     app.get("/credits", requireLoggedInUser, (req, res) => {
-        db.getAmountOfSigners()
+        Promise.all([
+            db.getAmountOfSigners(),
+            db.getSignatures(req.session.userId)
+        ])
             .then(data => {
-                let totalAmountSigners = data.rows.length;
-                let getSignature = data.rows[0].signature;
+                console.log(data);
+                let totalAmountSigners = data[0].rows.length;
+                // not showing corresponding signature!
+                let getSignature = data[1].rows[0].signature;
+                console.log(getSignature);
                 res.render("credits", {
                     title: "Credits",
                     layout: "main",

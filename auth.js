@@ -35,7 +35,7 @@
                     .then(data => {
                         let id = data.rows[0].id;
                         req.session.userId = id;
-                        res.redirect("/petition");
+                        res.redirect("/profile");
                     })
                     .catch(err => {
                         console.log(
@@ -109,7 +109,13 @@
     // add query to select and delete signature from table
 
     app.post("/unsign", (req, res) => {
-        req.session = null;
-        res.redirect("/login");
+        db.deleteSignature(req.session.sigId)
+            .then(() => {
+                req.session.signatureId = null;
+                res.redirect("/petition");
+            })
+            .catch(err => {
+                console.log("POST /unsign deleteSignature() error: ", err);
+            });
     });
 })();

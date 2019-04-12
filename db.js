@@ -144,12 +144,17 @@
         return db.query(query, parameters);
     };
 
-    // work in progress
-    // configure so it deletes signature from table
+    exports.deleteSignature = function deleteSignature(id) {
+        let query = `DELETE FROM signatures WHERE id = $1`;
+        let parameters = [id || null];
+        return db.query(query, parameters);
+    };
 
-    // exports.deleteSignature = function deleteSignature() {
-    //     let query = `SELECT id FROM signatures WHERE user_id = $1`;
-    //     let parameters = [user_id || null];
-    //     return db.query(query, parameters);
-    // };
+    exports.getSignatures = function getSignatures(user_id) {
+        let query = `SELECT signature
+        FROM signatures
+        WHERE user_id = $1;`;
+        let parameters = [user_id || null];
+        return db.query(query, parameters);
+    };
 })();
