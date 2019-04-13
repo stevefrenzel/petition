@@ -20,8 +20,6 @@
             });
     });
 
-    // ignoring stylesheet.css
-
     app.get("/signers/:city", requireLoggedInUser, (req, res) => {
         let city = req.params.city;
         db.getCitySigners(city)

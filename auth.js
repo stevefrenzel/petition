@@ -5,7 +5,6 @@
     const db = require("./db");
     const bcrypt = require("./bcrypt.js");
     const {
-        // requireLoggedInUser,
         requireLoggedOutUser,
         requireNoSignature
     } = require("./middleware");

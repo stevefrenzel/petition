@@ -5,8 +5,14 @@
 body {
     margin: 0;
     font-family: Helvetica, sans-serif;
-    background-color: #fbe8d3;
-    color: #283c63;
+    color: #0b032d;
+    display: flex;
+    justify-content: center;
+    background-color: #f67e7d;
+}
+
+h1 {
+    font-family: "Fjalla One", sans-serif;
 }
 
 h1,
@@ -31,6 +37,10 @@ button {
     display: flex;
     flex-direction: column;
     align-items: center;
+    height: 100vh;
+    text-align: center;
+    background-color: #ffb997;
+    width: 90%;
 }
 
 form {
@@ -42,16 +52,21 @@ form {
 li {
     list-style-type: none;
     margin: 20px;
+    font-size: 1.5em;
 }
 
 a {
-    color: #f85f73;
+    color: #843b62;
     text-decoration: none;
     transition: color 0.4s ease;
 }
 
 a:hover {
     color: #283c63;
+}
+
+iframe {
+    box-shadow: 0 8px 6px -6px black;
 }
 
 #submit-button {
@@ -61,4 +76,16 @@ a:hover {
 #img-signature {
     border: 1px dotted black;
     margin-top: 20px;
+}
+
+@media screen and (max-width: 700px) {
+    iframe {
+        width: 70%;
+    }
+
+    h1,
+    h2,
+    p {
+        width: 90%;
+    }
 }

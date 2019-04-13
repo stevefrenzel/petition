@@ -1,15 +1,11 @@
 (function() {
     "use strict";
 
-    // SUBMIT USER INPUT TO SERVER
-
     const submitButton = document.getElementById("submit-button");
 
     submitButton.addEventListener("click", () => {
         document.getElementById("hidden-input").value = canvas.toDataURL();
     });
-
-    // CANVAS
 
     const canvas = document.getElementById("canvas");
     canvas.width = "400";
