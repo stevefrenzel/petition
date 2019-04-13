@@ -105,11 +105,8 @@
         res.redirect("/login");
     });
 
-    // work in progress
-    // add query to select and delete signature from table
-
     app.post("/unsign", (req, res) => {
-        db.deleteSignature(req.session.sigId)
+        db.deleteSignature(req.session.signatureId)
             .then(() => {
                 req.session.signatureId = null;
                 res.redirect("/petition");

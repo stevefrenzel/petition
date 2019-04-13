@@ -24,13 +24,20 @@
 
     app.get("/signers/:city", requireLoggedInUser, (req, res) => {
         let city = req.params.city;
-        db.getCitySigners(city).then(data => {
-            let userData = data.rows;
-            res.render("signers", {
-                title: "Signers",
-                layout: "main",
-                userData
+        db.getCitySigners(city)
+            .then(data => {
+                let userData = data.rows;
+                res.render("signers", {
+                    title: "Signers",
+                    layout: "main",
+                    userData
+                });
+            })
+            .catch(err => {
+                console.log(
+                    "GET /signers/:city getAmountOfSigners() error:",
+                    err
+                );
             });
-        });
     });
 })();

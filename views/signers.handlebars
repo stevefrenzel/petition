@@ -2,8 +2,6 @@
 
 {{>nav}}
 
-<h1>This is the {{title}} template!</h1>
-
 <h2>These people have also signed up to support the cause:</h2>
 
 <ul>
@@ -11,7 +9,7 @@
         <li>
             Name:
             {{#if url}}
-                <a href="/{{url}}">
+                <a href="{{url}}" target="_blank">
                     {{/if}}
                         {{first_name}} {{last_name}}
                     {{#if url}}

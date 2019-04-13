@@ -5,6 +5,8 @@
 body {
     margin: 0;
     font-family: Helvetica, sans-serif;
+    background-color: #fbe8d3;
+    color: #283c63;
 }
 
 h1,
@@ -22,7 +24,7 @@ canvas {
 input,
 button {
     display: block;
-    margin: 20px;
+    margin: 10px;
 }
 
 .flex-container {
@@ -37,10 +39,26 @@ form {
     align-items: center;
 }
 
+li {
+    list-style-type: none;
+    margin: 20px;
+}
+
+a {
+    color: #f85f73;
+    text-decoration: none;
+    transition: color 0.4s ease;
+}
+
+a:hover {
+    color: #283c63;
+}
+
 #submit-button {
     margin-top: 20px;
 }
 
 #img-signature {
     border: 1px dotted black;
+    margin-top: 20px;
 }

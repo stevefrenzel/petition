@@ -7,10 +7,14 @@
     const urlCleaner = require("./urlCleaner");
 
     app.get("/profile", requireLoggedInUser, requireNoSignature, (req, res) => {
-        res.render("profile", {
-            title: "Profile",
-            layout: "main"
-        });
+        if (req.originalUrl.endsWith("/register")) {
+            res.render("profile", {
+                title: "Profile",
+                layout: "main"
+            });
+        } else {
+            res.redirect("/petition");
+        }
     });
 
     app.post("/profile", (req, res) => {

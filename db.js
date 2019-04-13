@@ -145,7 +145,8 @@
     };
 
     exports.deleteSignature = function deleteSignature(id) {
-        let query = `DELETE FROM signatures WHERE id = $1`;
+        let query = `DELETE FROM signatures
+        WHERE user_id = $1`;
         let parameters = [id || null];
         return db.query(query, parameters);
     };

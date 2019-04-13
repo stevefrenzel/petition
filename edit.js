@@ -65,9 +65,6 @@
         Promise.all([updateThreeThings, updateUser]).then(data => {
             if (data) {
                 res.redirect("/credits");
-            } else {
-                // what to do if both promises are not true?
-                console.log("NO IDEA!");
             }
         });
     });
