@@ -1,17 +1,17 @@
 (function() {
-    "use strict";
+    'use strict';
 
-    const submitButton = document.getElementById("submit-button");
+    const submitButton = document.getElementById('submit-button');
 
-    submitButton.addEventListener("click", () => {
-        document.getElementById("hidden-input").value = canvas.toDataURL();
+    submitButton.addEventListener('click', () => {
+        document.getElementById('hidden-input').value = canvas.toDataURL();
     });
 
-    const canvas = document.getElementById("canvas");
-    canvas.width = "400";
-    canvas.height = "100";
-    const ctx = canvas.getContext("2d");
-    const deleteButton = document.getElementById("erase-button");
+    const canvas = document.getElementById('canvas');
+    canvas.width = '400';
+    canvas.height = '100';
+    const ctx = canvas.getContext('2d');
+    const deleteButton = document.getElementById('erase-button');
 
     let sx = 0;
     let sy = 0;
@@ -29,12 +29,12 @@
         let y = vertical(e);
         ctx.moveTo(sx, sy);
         ctx.lineTo(x, y);
-        ctx.strokeStyle = "black";
+        ctx.strokeStyle = 'black';
         ctx.stroke();
     }
 
     canvas.addEventListener(
-        "mousedown",
+        'mousedown',
         e => {
             sx = horizontal(e);
             sy = vertical(e);
@@ -45,7 +45,7 @@
     );
 
     canvas.addEventListener(
-        "mousemove",
+        'mousemove',
         e => {
             if (clicked == true) {
                 draw(e, canvas);
@@ -55,14 +55,14 @@
     );
 
     addEventListener(
-        "mouseup",
+        'mouseup',
         () => {
             clicked = false;
         },
         false
     );
 
-    deleteButton.addEventListener("click", e => {
+    deleteButton.addEventListener('click', e => {
         ctx.beginPath();
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         e.preventDefault();

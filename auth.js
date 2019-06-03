@@ -1,27 +1,27 @@
 (function() {
-    "use strict";
+    'use strict';
 
-    const { app } = require("./index");
-    const db = require("./db");
-    const bcrypt = require("./bcrypt.js");
+    const { app } = require('./index');
+    const db = require('./db');
+    const bcrypt = require('./bcrypt.js');
     const {
         requireLoggedOutUser,
         requireNoSignature
-    } = require("./middleware");
+    } = require('./middleware');
 
     app.get(
-        "/register",
+        '/register',
         requireLoggedOutUser,
         requireNoSignature,
         (req, res) => {
-            res.render("register", {
-                title: "Register",
-                layout: "main"
+            res.render('register', {
+                title: 'Register',
+                layout: 'main'
             });
         }
     );
 
-    app.post("/register", (req, res) => {
+    app.post('/register', (req, res) => {
         bcrypt
             .hashPassword(req.body.password)
             .then(hash => {
@@ -34,38 +34,38 @@
                     .then(data => {
                         let id = data.rows[0].id;
                         req.session.userId = id;
-                        res.redirect("/profile");
+                        res.redirect('/profile');
                     })
                     .catch(err => {
                         console.log(
-                            "POST /register registerInfo() error: ",
+                            'POST /register registerInfo() error: ',
                             err
                         );
-                        res.render("register", {
-                            title: "Register",
-                            error: "error",
-                            layout: "main"
+                        res.render('register', {
+                            title: 'Register',
+                            error: 'error',
+                            layout: 'main'
                         });
                     });
             })
             .catch(err => {
-                console.log("POST /register hashPassword() error: ", err);
-                res.render("register", {
-                    title: "Register",
-                    error: "error",
-                    layout: "main"
+                console.log('POST /register hashPassword() error: ', err);
+                res.render('register', {
+                    title: 'Register',
+                    error: 'error',
+                    layout: 'main'
                 });
             });
     });
 
-    app.get("/login", requireLoggedOutUser, requireNoSignature, (req, res) => {
-        res.render("login", {
-            title: "Login",
-            layout: "main"
+    app.get('/login', requireLoggedOutUser, requireNoSignature, (req, res) => {
+        res.render('login', {
+            title: 'Login',
+            layout: 'main'
         });
     });
 
-    app.post("/login", (req, res) => {
+    app.post('/login', (req, res) => {
         db.getHashedPassword(req.body.emailAddress)
             .then(data => {
                 let id = data.rows[0].id;
@@ -77,41 +77,41 @@
                             db.checkIfSigned(req.session.userId).then(data => {
                                 if (data.rows.length > 0) {
                                     req.session.signatureId = data.rows[0].id;
-                                    res.redirect("/credits");
+                                    res.redirect('/credits');
                                 } else {
-                                    res.redirect("/petition");
+                                    res.redirect('/petition');
                                 }
                             });
                         } else {
-                            res.render("login", {
-                                title: "Login",
-                                error: "error",
-                                layout: "main"
+                            res.render('login', {
+                                title: 'Login',
+                                error: 'error',
+                                layout: 'main'
                             });
                         }
                     })
                     .catch(err => {
-                        console.log("POST /login checkPassword() error: ", err);
+                        console.log('POST /login checkPassword() error: ', err);
                     });
             })
             .catch(err => {
-                console.log("POST /login getHashedPassword() error: ", err);
+                console.log('POST /login getHashedPassword() error: ', err);
             });
     });
 
-    app.post("/logout", (req, res) => {
+    app.post('/logout', (req, res) => {
         req.session = null;
-        res.redirect("/login");
+        res.redirect('/login');
     });
 
-    app.post("/unsign", (req, res) => {
+    app.post('/unsign', (req, res) => {
         db.deleteSignature(req.session.signatureId)
             .then(() => {
                 req.session.signatureId = null;
-                res.redirect("/petition");
+                res.redirect('/petition');
             })
             .catch(err => {
-                console.log("POST /unsign deleteSignature() error: ", err);
+                console.log('POST /unsign deleteSignature() error: ', err);
             });
     });
 })();

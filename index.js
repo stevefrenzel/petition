@@ -1,16 +1,16 @@
 (function() {
-    "use strict";
+    'use strict';
 
-    const express = require("express");
+    const express = require('express');
     const app = (exports.app = express());
-    const hb = require("express-handlebars");
-    const cookieSession = require("cookie-session");
-    const bodyParser = require("body-parser");
-    const csurf = require("csurf");
+    const hb = require('express-handlebars');
+    const cookieSession = require('cookie-session');
+    const bodyParser = require('body-parser');
+    const csurf = require('csurf');
 
-    app.engine("handlebars", hb());
-    app.set("view engine", "handlebars");
-    app.use(express.static("./public"));
+    app.engine('handlebars', hb());
+    app.set('view engine', 'handlebars');
+    app.use(express.static('./public'));
 
     app.use(
         cookieSession({
@@ -28,23 +28,23 @@
     app.use(csurf());
 
     app.use((req, res, next) => {
-        res.setHeader("x-frame-options", "DENY");
+        res.setHeader('x-frame-options', 'DENY');
         res.locals.csrfToken = req.csrfToken();
         next();
     });
 
-    require("./auth");
-    require("./petition");
-    require("./signers");
-    require("./credits");
-    require("./profile");
-    require("./edit");
+    require('./auth');
+    require('./petition');
+    require('./signers');
+    require('./credits');
+    require('./profile');
+    require('./edit');
 
-    app.get("/", (req, res) => {
-        res.redirect("/login");
+    app.get('/', (req, res) => {
+        res.redirect('/login');
     });
 
     app.listen(process.env.PORT || 8080, () => {
-        console.log("S E R V E R  I S  O N L I N E");
+        console.log('S E R V E R  I S  O N L I N E');
     });
 })();

@@ -1,39 +1,39 @@
 (function() {
-    "use strict";
+    'use strict';
 
-    const { app } = require("./index");
-    const db = require("./db");
-    const { requireLoggedInUser } = require("./middleware");
+    const { app } = require('./index');
+    const db = require('./db');
+    const { requireLoggedInUser } = require('./middleware');
 
-    app.get("/signers", requireLoggedInUser, (req, res) => {
+    app.get('/signers', requireLoggedInUser, (req, res) => {
         db.getSignees()
             .then(data => {
                 let userData = data.rows;
-                res.render("signers", {
-                    title: "Signers",
-                    layout: "main",
+                res.render('signers', {
+                    title: 'Signers',
+                    layout: 'main',
                     userData
                 });
             })
             .catch(err => {
-                console.log("GET /signers getAmountOfSigners() error:", err);
+                console.log('GET /signers getAmountOfSigners() error:', err);
             });
     });
 
-    app.get("/signers/:city", requireLoggedInUser, (req, res) => {
+    app.get('/signers/:city', requireLoggedInUser, (req, res) => {
         let city = req.params.city;
         db.getCitySigners(city)
             .then(data => {
                 let userData = data.rows;
-                res.render("signers", {
-                    title: "Signers",
-                    layout: "main",
+                res.render('signers', {
+                    title: 'Signers',
+                    layout: 'main',
                     userData
                 });
             })
             .catch(err => {
                 console.log(
-                    "GET /signers/:city getAmountOfSigners() error:",
+                    'GET /signers/:city getAmountOfSigners() error:',
                     err
                 );
             });

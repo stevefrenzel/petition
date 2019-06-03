@@ -1,10 +1,10 @@
 (function() {
-    "use strict";
+    'use strict';
 
-    const spicedPg = require("spiced-pg");
+    const spicedPg = require('spiced-pg');
     const db = spicedPg(
         process.env.DATABASE_URL ||
-            "postgres:postgres:postgres@localhost:5432/tabasco-petition"
+            'postgres:postgres:postgres@localhost:5432/tabasco-petition'
     );
 
     exports.addUserData = function addUserData(user_id, signature) {

@@ -1,13 +1,13 @@
 (function() {
-    "use strict";
+    'use strict';
 
-    const { app } = require("./index");
-    const db = require("./db");
-    const { requireLoggedInUser } = require("./middleware");
-    const urlCleaner = require("./urlCleaner");
-    const bcrypt = require("./bcrypt");
+    const { app } = require('./index');
+    const db = require('./db');
+    const { requireLoggedInUser } = require('./middleware');
+    const urlCleaner = require('./urlCleaner');
+    const bcrypt = require('./bcrypt');
 
-    app.get("/edit", requireLoggedInUser, (req, res) => {
+    app.get('/edit', requireLoggedInUser, (req, res) => {
         db.getUserInformation(req.session.userId)
             .then(data => {
                 let firstName = data.rows[0].first_name;
@@ -16,9 +16,9 @@
                 let age = data.rows[0].age;
                 let city = data.rows[0].city;
                 let url = data.rows[0].url;
-                res.render("edit", {
-                    title: "Edit",
-                    layout: "main",
+                res.render('edit', {
+                    title: 'Edit',
+                    layout: 'main',
                     firstName,
                     lastName,
                     emailAddress,
@@ -28,11 +28,11 @@
                 });
             })
             .catch(err => {
-                console.log("GET /edit getUserInformation() error:", err);
+                console.log('GET /edit getUserInformation() error:', err);
             });
     });
 
-    app.post("/edit", (req, res) => {
+    app.post('/edit', (req, res) => {
         let cleanUrl = urlCleaner.urlCleaner(req.body.signersHomepage);
         let updateUser;
 
@@ -43,7 +43,7 @@
             req.session.userId
         );
 
-        if (req.body.password === "") {
+        if (req.body.password === '') {
             updateUser = db.updateNamesEmail(
                 req.body.firstName,
                 req.body.lastName,
@@ -64,7 +64,7 @@
 
         Promise.all([updateThreeThings, updateUser]).then(data => {
             if (data) {
-                res.redirect("/credits");
+                res.redirect('/credits');
             }
         });
     });
