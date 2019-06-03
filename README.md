@@ -12,7 +12,7 @@ About the goal of this project:
 2. Creating a signature
 3. Main menu
 4. Showing participants
-5. Editing user information
+5. [Editing user information](https://github.com/stevefrenzel/spiced_academy_petition#5-editing-user-information)
 
 ## 1. Register / Login
 
