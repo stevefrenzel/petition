@@ -8,10 +8,10 @@ About the goal of this project:
 
 ## Directory
 
-1. Register (Login)
-2. Creating a signature
-3. Main menu
-4. Showing participants
+1. [Register (Login)](https://github.com/stevefrenzel/spiced_academy_petition#1-register--login)
+2. [Creating a signature](https://github.com/stevefrenzel/spiced_academy_petition#2-creating-a-signature)
+3. [Main menu](https://github.com/stevefrenzel/spiced_academy_petition#3-main-menu)
+4. [Showing participants](https://github.com/stevefrenzel/spiced_academy_petition#4-showing-participants)
 5. [Editing user information](https://github.com/stevefrenzel/spiced_academy_petition#5-editing-user-information)
 
 ## 1. Register / Login
@@ -67,6 +67,8 @@ CREATE TABLE signatures(
 ## 3. Main menu
 
 <img src="/images/03_credits.png">
+
+-   this page shows additional content, other participants, the option to edit the user profile and to delete the signature
 
 ## 4. Showing participants
 
