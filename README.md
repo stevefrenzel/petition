@@ -1,5 +1,5 @@
 # Petition 
-#### ([SPICED Academy](https://www.spiced-academy.com/) project)
+###### This was a project for coding bootcamp [SPICED Academy](https://www.spiced-academy.com/).
 
 About the goal of this project:
 
