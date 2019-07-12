@@ -17,7 +17,7 @@ About the goal of this project:
 
 ## 1. Register / Login
 
-<img src="/images/01_register.png" style="box-shadow: 0px 8px 20px -3px black;">
+<img src="/images/01_register.png">
 
 -   users table contains columns for id (the primary key), first name, last name, email address, hashed password and a timestamp column to record the time at which the user was created:
 
@@ -42,7 +42,7 @@ CREATE TABLE users(
 
 ## 2. Creating a signature
 
-<img src="/images/02_signature.png" style="box-shadow: 0px 8px 20px -3px black;">
+<img src="/images/02_signature.png">
 
 -   client-side Javascript allows users to draw on the `<canvas>` element and then set the value of the hidden form field to what they have drawn
 
@@ -67,13 +67,13 @@ CREATE TABLE signatures(
 
 ## 3. Main menu
 
-<img src="/images/03_credits.png" style="box-shadow: 0px 8px 20px -3px black;">
+<img src="/images/03_credits.png">
 
 -   this page shows additional content, other participants, the option to edit the user profile and to delete the signature
 
 ## 4. Showing participants
 
-<img src="/images/04_signers.png" style="box-shadow: 0px 8px 20px -3px black;">
+<img src="/images/04_signers.png">
 
 -   getting the data (if available) for age, city and website from user_profiles table
 
@@ -83,7 +83,7 @@ CREATE TABLE signatures(
 
 ## 5. Editing user information
 
-<img src="/images/05_edit.png" style="box-shadow: 0px 8px 20px -3px black;">
+<img src="/images/05_edit.png">
 
 -   when a user submits this form, the data is written to a table named user_profiles, all of the fields are optional
 
