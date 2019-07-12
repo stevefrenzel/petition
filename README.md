@@ -1,8 +1,6 @@
 # Petition 
 ###### This was a project for coding bootcamp [SPICED Academy](https://www.spiced-academy.com/).
 
-About the goal of this project:
-
 The idea behind this project is to create an online petition that visitors can sign to make their voice heard on an issue of your choosing.
 
 The petition can be about something ridiculous, (...) , or a matter of great seriousness. Since we are going to be working on this project for considerable amount of time, it would be best if you chose a topic that interests you. Keep in mind that we will be (...) publishing them on the web, so you should not choose a topic that would offend or alienate your colleagues or others you may want to impress with your work.
