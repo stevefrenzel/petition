@@ -1,4 +1,5 @@
-# Petition ([SPICED Academy](https://www.spiced-academy.com/) project)
+# Petition 
+#### ([SPICED Academy](https://www.spiced-academy.com/) project)
 
 About the goal of this project:
 
